@@ -6,16 +6,13 @@
 	$isDevMode = true;
 	$config = Setup::createYAMLMetadataConfiguration(array(__DIR__ . "/config/yaml"), $isDevMode);
 	$conn = array(
-	'host' => 'dpg-cok0d7gl6cac73e70b2g-a.oregon-postgres.render.com',
+	'host' => 'dpg-ctn62ibtq21c73fe3g2g-a.oregon-postgres.render.com',
 	'driver' => 'pdo_pgsql',
-	'user' =>'cnam_l5ol_user',
-	'password' => 'VoZBXopqdGnJ5Vilgny4Jc0ANIK6XqPY',
-	'dbname' => 'cnam_l5ol',
+	'user' =>'cnam_db_v095_user',
+	'password' => 'HGxvDFcFWxo8U6RGVMhraHKFoU0ggJKF',
+	'dbname' => 'cnam_db_v095',
 	'port' => '5432'
 	);
 
 
 	$entityManager = EntityManager::create($conn, $config);
-
-
-
