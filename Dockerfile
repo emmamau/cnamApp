@@ -9,8 +9,8 @@ WORKDIR /app
 COPY     ./deployApp/  ./angular-app
 COPY     ./deployApi/ ./nodejs-app
  
-# Installation des dépendances de l'application Node.js
-RUN cd nodejs-app && npm install
+#un Installation des dépendances de l'application Node.js
+# RUN cd nodejs-app && npm install
 
 # Construction de l'application Angular
 RUN cd angular-app && npm install && npm run build --prod
