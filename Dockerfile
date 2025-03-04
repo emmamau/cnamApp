@@ -1,38 +1,22 @@
-FROM php:7.4-apache
 
-ENV COMPOSER_ALLOW_SUPERUSER=1
+# Utilisation d'une image Node.js
+FROM node:14
 
-COPY ./deployApi/ /var/www/html
+# Définition du répertoire de travail
+WORKDIR /app
 
-COPY ./deployApp/ /var/www/html
+# Copie des fichiers Angular et Node.js
+COPY     ./deployApp/  ./angular-app
+COPY     ./deployApi/ ./nodejs-app
+ 
+# Installation des dépendances de l'application Node.js
+RUN cd nodejs-app && npm install
 
-WORKDIR /var/www/html
+# Construction de l'application Angular
+RUN cd angular-app && npm install && npm run build --prod
 
-RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf \
-&& curl -sSk https://getcomposer.org/installer | php -- --disable-tls \
-&& mv composer.phar /usr/local/bin/composer \
-&& apt-get update && apt-get install -y \
-    curl \
-    git \
-    libbz2-dev \
-    libfreetype6-dev \
-    libicu-dev \
-    libjpeg-dev \
-    libmcrypt-dev \
-    libpng-dev \
-    libreadline-dev \
-    libzip-dev \
-    libpq-dev \
-    unzip \
-    zip \
-&& rm -rf /var/lib/apt/lists/* \
-&& a2enmod rewrite headers \
-&& composer install --prefer-dist \
-&& composer dump-autoload --optimize \
-&& composer update
-
-# Exposer le port 80 pour permettre les connexions entrantes
+# Exposition du port 80
 EXPOSE 80
 
-# Définir l'entrée de l'application
-CMD ["apache2-foreground"]
+# Démarrage du serveur Node.js
+CMD ["node", "nodejs-app/server.js"]
